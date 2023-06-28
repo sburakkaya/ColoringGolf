@@ -43,34 +43,34 @@ public class LevelManager : MonoBehaviour
         if (PlayerPrefs.GetInt("muted") == 0)
         {
             muted = true;
-            _voiceBtn.GetComponent<Image>().sprite = _whichBtn[1];
+            //_voiceBtn.GetComponent<Image>().sprite = _whichBtn[1];
         }
         if (PlayerPrefs.GetInt("muted") == 1)
         {
             muted = false;
-            _voiceBtn.GetComponent<Image>().sprite = _whichBtn[0];
+            //_voiceBtn.GetComponent<Image>().sprite = _whichBtn[0];
         }
         
         if (PlayerPrefs.GetInt("sfxmuted") == 0)
         {
             sfxmuted = true;
-            _sfxBtn.GetComponent<Image>().sprite = _whichBtnSfx[1];
+            //_sfxBtn.GetComponent<Image>().sprite = _whichBtnSfx[1];
         }
         if (PlayerPrefs.GetInt("sfxmuted") == 1)
         {
             sfxmuted = false;
-            _sfxBtn.GetComponent<Image>().sprite = _whichBtnSfx[0];
+            //_sfxBtn.GetComponent<Image>().sprite = _whichBtnSfx[0];
         }
         
         if (PlayerPrefs.GetInt("vibmuted") == 0)
         {
             vibBool = true;
-            _vibBtn.GetComponent<Image>().sprite = _whichBtnVib[1];
+            //_vibBtn.GetComponent<Image>().sprite = _whichBtnVib[1];
         }
         if (PlayerPrefs.GetInt("vibmuted") == 1)
         {
             vibBool = false;
-            _vibBtn.GetComponent<Image>().sprite = _whichBtnVib[0];
+            //_vibBtn.GetComponent<Image>().sprite = _whichBtnVib[0];
         }
 
     }
@@ -106,14 +106,14 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("muted", muted?1:0);
         if (muted == true)
         {
-            _voiceBtn.GetComponent<Image>().sprite = _whichBtn[1];
+            //_voiceBtn.GetComponent<Image>().sprite = _whichBtn[1];
             PlayerPrefs.SetFloat("muted", 0);
             _audioSource.volume = 0;
         }
 
         if (muted == false)
         {
-            _voiceBtn.GetComponent<Image>().sprite = _whichBtn[0];
+            //_voiceBtn.GetComponent<Image>().sprite = _whichBtn[0];
             PlayerPrefs.SetFloat("muted", 0.7f);
             _audioSource.volume = 0.7f; 
         }
@@ -125,14 +125,14 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("sfxmuted", muted?1:0);
         if (sfxmuted == true)
         {
-            _sfxBtn.GetComponent<Image>().sprite = _whichBtnSfx[1];
+            //_sfxBtn.GetComponent<Image>().sprite = _whichBtnSfx[1];
             PlayerPrefs.SetFloat("sfxmuted", 0);
             _audioSourceSfx.volume = 0;
         }
 
         if (sfxmuted == false)
         {
-            _sfxBtn.GetComponent<Image>().sprite = _whichBtnSfx[0];
+            //_sfxBtn.GetComponent<Image>().sprite = _whichBtnSfx[0];
             PlayerPrefs.SetFloat("sfxmuted", 0.7f);
             _audioSourceSfx.volume = 0.7f; 
         }
@@ -144,14 +144,14 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("vibmuted", vibBool?1:0);
         if (vibBool == true)
         {
-            _vibBtn.GetComponent<Image>().sprite = _whichBtnVib[1];
+            //_vibBtn.GetComponent<Image>().sprite = _whichBtnVib[1];
             PlayerPrefs.SetInt("vibmuted", 0);
             //_gameManager.Set_VibInt(0);
         }
 
         if (vibBool == false)
         {
-            _vibBtn.GetComponent<Image>().sprite = _whichBtnVib[0];
+            //_vibBtn.GetComponent<Image>().sprite = _whichBtnVib[0];
             PlayerPrefs.SetInt("vibmuted", 100);
             //_gameManager.Set_VibInt(100);
         }

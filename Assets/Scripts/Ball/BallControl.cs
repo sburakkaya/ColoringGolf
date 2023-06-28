@@ -25,6 +25,14 @@ public class BallControl : MonoBehaviour
     public bool isLooked;
     private float lineRendererLength = 0.5f;
 
+    #region Trajectory
+
+    [SerializeField] private GameObject _point;
+    private GameObject[] _points;
+    [SerializeField] private int _numberOfPoints;
+    [SerializeField] private float _spaceOfPoints;
+
+    #endregion
     public float Get_XRot()
     {
         return xRot;
@@ -35,23 +43,40 @@ public class BallControl : MonoBehaviour
         cameraControl = GameObject.Find("CameraControl").GetComponent<CameraControl>();
         cameraHolder = GameObject.Find("CameraHolder");
         _colorManager = FindObjectOfType<ColorManager>();
+
+        _points = new GameObject[_numberOfPoints];
+        for (int i = 0; i < _numberOfPoints; i++)
+        {
+            _points[i] = Instantiate(_point, transform.position, Quaternion.identity);
+        }
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("CorrectHole"))
         {
+            transform.position = respawnPoint;
+            xRot = 0;
+            transform.rotation = lastQuaternion;
             Debug.Log("true hole");
             collision.gameObject.tag = "Untagged";
-            _colorManager.Colorize();
+            StartCoroutine(ColorizeNumerator());
         }
         if (collision.gameObject.CompareTag("WrongHole"))
         {
+            Debug.Log("wrong hole");
             transform.position = respawnPoint;
             xRot = 0;
             transform.rotation = lastQuaternion;
             ball.velocity = Vector3.zero;
+            _colorManager.WrongHole();
         }
+    }
+
+    IEnumerator ColorizeNumerator()
+    {
+        yield return new WaitForSeconds(0.1f);
+        _colorManager.Colorize();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -118,7 +143,7 @@ public class BallControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (ball.velocity.magnitude > 0.3)
+        if (ball.velocity.magnitude > 0.6)
         {
             moving = true;
         }
@@ -168,9 +193,16 @@ public class BallControl : MonoBehaviour
                 yRot = 0;
             }
             transform.rotation = Quaternion.Euler(0,-xRot,0f);
-            line.gameObject.SetActive(true);
+            //line.gameObject.SetActive(true);
             line.SetPosition(0,transform.position);
             line.SetPosition(1,transform.position + (transform.forward * lineRendererLength)*-yRot);
+            for (int i = 0; i < _points.Length; i++)
+            {
+                _points[i].SetActive(true);
+                _points[i].transform.position = transform.position + (transform.forward * i/5) * -yRot/5;
+                _points[i].transform.localScale = new Vector3(transform.localScale.x/(i+6),transform.localScale.y/(i+6),transform.localScale.z/(i+6));
+                //_points[i] = Instantiate(_point, transform.position + (transform.forward * lineRendererLength)*-yRot, Quaternion.identity);
+            }
         }
 
         if (Input.GetMouseButtonUp(0) && dragging && moving == false)
@@ -179,6 +211,12 @@ public class BallControl : MonoBehaviour
             line.gameObject.SetActive(false);
             dragging = false;
             yRot = 0;
+            _colorManager.Shooted();
+            for (int i = 0; i < _points.Length; i++)
+            {
+                _points[i].SetActive(false);
+            }
         }
     }
+    
 }
